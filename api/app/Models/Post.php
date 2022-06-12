@@ -10,7 +10,7 @@ use App\Traits\PreventsUpdating;
 /**
  * Blog Post
  */
-class Post extends BaseModel
+class Post extends CacheBaseModel
 {
     use HasFactory,HasUuid,PreventsUpdating;
      /**
