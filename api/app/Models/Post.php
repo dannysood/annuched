@@ -46,6 +46,7 @@ class Post extends Model
     protected $fillable = [
         'title',
         'description',
+        'owner_id'
     ];
 
     /**
@@ -62,7 +63,7 @@ class Post extends Model
      */
     public function owner()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,"id","owner_id");
     }
 
 
