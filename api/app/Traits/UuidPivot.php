@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits\Uuid;
+namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use App\Traits\HasUuid;
