@@ -57,5 +57,14 @@ class Post extends Model
         'updated_at',
     ];
 
+    /**
+     * Relationships
+     */
+    public function owner()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
 
 }

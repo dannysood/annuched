@@ -18,6 +18,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->text('title');
             $table->text('description');
+            $table->uuid('owner_id');
+            $table->foreign('owner_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
