@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasUuid;
 use App\Traits\PreventsUpdating;
 
-class Post extends Model
+/**
+ * Blog Post
+ */
+class Post extends BaseModel
 {
     use HasFactory,HasUuid,PreventsUpdating;
      /**
