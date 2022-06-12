@@ -26,8 +26,8 @@ class StorePostRequest extends FormRequest
     {
         // TODO make these validation ruels reusable
         return [
-            'title' => ['required','string','Min:30'],
-            'description' => ['required','string','Min:100']
+            'title' => ['required','string','Min:30','bad_word'],
+            'description' => ['required','string','Min:100','bad_word']
         ];
     }
 }
