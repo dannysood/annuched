@@ -16,7 +16,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return Post::orderBy('created_at', "desc")->get();
+        // cursor pagination provides better performance than paginate (which uses offset) for indexed coulmn
+        // https://laravel.com/docs/9.x/pagination#cursor-vs-offset-pagination
+        return Post::orderBy('created_at', "desc")->cursorPaginate(2);
     }
 
     /**
