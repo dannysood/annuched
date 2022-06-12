@@ -33,6 +33,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'updated_at'
     ];
 
     /**
@@ -48,6 +49,6 @@ class User extends Authenticatable
      */
     public function posts()
     {
-        return $this->hasMany(Post::class,"owner_id");
+        return $this->hasMany(Post::class,'owner_id','id');
     }
 }

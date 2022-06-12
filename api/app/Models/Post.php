@@ -59,6 +59,7 @@ class Post extends CacheBaseModel
      */
     protected $hidden = [
         'updated_at',
+        'owner_id'
     ];
 
     /**
@@ -66,7 +67,7 @@ class Post extends CacheBaseModel
      */
     public function owner()
     {
-        return $this->belongsTo(User::class,"id","owner_id");
+        return $this->belongsTo(User::class,'owner_id','id');
     }
 
 

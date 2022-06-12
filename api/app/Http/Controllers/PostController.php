@@ -18,7 +18,9 @@ class PostController extends Controller
     {
         // cursor pagination provides better performance than paginate (which uses offset) for indexed coulmn
         // https://laravel.com/docs/9.x/pagination#cursor-vs-offset-pagination
-        return Post::orderBy('created_at', "desc")->cursorPaginate(2);
+        return Post::with(['owner' => function ($query) {
+            $query->select('id','name');
+        }])->orderBy('created_at', "desc")->cursorPaginate(2);
     }
 
     /**
@@ -44,7 +46,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return $post;
+        return $post->load(['owner' => function ($query) {
+            $query->select('id','name');
+        }]);
     }
 
     /**
