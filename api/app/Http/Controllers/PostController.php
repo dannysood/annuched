@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 
 class PostController extends Controller
 {
@@ -43,6 +44,7 @@ class PostController extends Controller
         $userid = User::latest()->first()->id;
         $request->merge(['owner_id' => $userid]);
         $post = Post::create($request->only(['title', 'description', 'owner_id']));
+        Event::dispatch(new PostCreated());
         return Cache::remember(Config::get('constants.cache.keys.posts.singleItemPrefix').$post->id, Config::get('constants.cache.keys.posts.ttl'), function() use(&$post){
             return $post->load(['owner' => function ($query) {
                 $query->select('id','name');

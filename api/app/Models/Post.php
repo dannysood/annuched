@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\PostCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasUuid;
@@ -60,6 +61,13 @@ class Post extends Model
     protected $hidden = [
         'updated_at',
         'owner_id'
+    ];
+
+    /**
+     * Events dispatched based on different model actions
+     */
+    protected $dispatchesEvents = [
+        'created' => PostCreated::class
     ];
 
     /**
