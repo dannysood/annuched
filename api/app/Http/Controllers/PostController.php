@@ -35,7 +35,10 @@ class PostController extends Controller
         $userid = User::latest()->first()->id;
         $request->merge(['owner_id' => $userid]);
 
-        return Post::create($request->only(['title', 'description', 'owner_id']));
+        $post = Post::create($request->only(['title', 'description', 'owner_id']));
+        return $post->load(['owner' => function ($query) {
+            $query->select('id','name');
+        }]);
     }
 
     /**
