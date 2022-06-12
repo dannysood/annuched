@@ -10,7 +10,7 @@ use App\Traits\PreventsUpdating;
 /**
  * Blog Post
  */
-class Post extends CacheBaseModel
+class Post extends Model
 {
     use HasFactory,HasUuid,PreventsUpdating;
      /**
@@ -35,7 +35,7 @@ class Post extends CacheBaseModel
     public $incrementing = false;
 
     /**
-     * The data type of the auto-incrementing ID.
+     * The data type of the ID.
      *
      * @var string
      */

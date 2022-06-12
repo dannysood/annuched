@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostCreated;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 
 class PostController extends Controller
 {
@@ -14,13 +18,17 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // cursor pagination provides better performance than paginate (which uses offset) for indexed coulmn
+        // cursor pagination provides better performance than paginate (which uses offset) for indexed column
         // https://laravel.com/docs/9.x/pagination#cursor-vs-offset-pagination
-        return Post::with(['owner' => function ($query) {
-            $query->select('id','name');
-        }])->orderBy('created_at', "desc")->cursorPaginate(2);
+        $cacheKey = $request->input('cursor') != null ? Config::get('constants.cache.keys.posts.paginationPrefix').$request->input('cursor') : Config::get('constants.cache.keys.posts.paginationPrefixRoot');
+        return Cache::remember($cacheKey, Config::get('constants.cache.keys.posts.ttl'), function(){
+            return Post::with(['owner' => function ($query) {
+                $query->select('id','name');
+            }])->orderBy('created_at', "desc")->cursorPaginate(Config::get('constants.pageSize'));
+        });
+
     }
 
     /**
@@ -34,11 +42,13 @@ class PostController extends Controller
         // TODO temporary way to feed an owner id. Remove and use authorized user before golive.
         $userid = User::latest()->first()->id;
         $request->merge(['owner_id' => $userid]);
-
         $post = Post::create($request->only(['title', 'description', 'owner_id']));
-        return $post->load(['owner' => function ($query) {
-            $query->select('id','name');
-        }]);
+        return Cache::remember(Config::get('constants.cache.keys.posts.singleItemPrefix').$post->id, Config::get('constants.cache.keys.posts.ttl'), function() use(&$post){
+            return $post->load(['owner' => function ($query) {
+                $query->select('id','name');
+            }]);
+        });
+
     }
 
     /**
@@ -49,9 +59,13 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return $post->load(['owner' => function ($query) {
-            $query->select('id','name');
-        }]);
+
+        return Cache::remember(Config::get('constants.cache.keys.posts.singleItemPrefix').$post->id, Config::get('constants.cache.keys.posts.ttl'), function() use(&$post){
+            return $post->load(['owner' => function ($query) {
+                $query->select('id','name');
+            }]);
+        });
+
     }
 
     /**
