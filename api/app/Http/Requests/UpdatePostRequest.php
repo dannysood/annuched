@@ -26,8 +26,7 @@ class UpdatePostRequest extends FormRequest
     {
         // TODO make these validation ruels reusable
         return [
-            'title' => ['required','string','Min:30'],
-            'description' => ['required','string','Min:100']
-        ];;
+
+        ];
     }
 }
