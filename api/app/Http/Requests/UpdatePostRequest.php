@@ -13,7 +13,8 @@ class UpdatePostRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        // TODO setup proper authorization before golive
+        return true;
     }
 
     /**
@@ -23,8 +24,10 @@ class UpdatePostRequest extends FormRequest
      */
     public function rules()
     {
+        // TODO make these validation ruels reusable
         return [
-            //
-        ];
+            'title' => ['required','string','Min:30'],
+            'description' => ['required','string','Min:100']
+        ];;
     }
 }

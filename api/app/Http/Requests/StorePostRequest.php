@@ -13,6 +13,7 @@ class StorePostRequest extends FormRequest
      */
     public function authorize()
     {
+        // TODO setup proper authorization before golive
         return true;
     }
 
@@ -23,9 +24,10 @@ class StorePostRequest extends FormRequest
      */
     public function rules()
     {
+        // TODO make these validation ruels reusable
         return [
-            'title' => 'required',
-            'description' => 'required'
+            'title' => ['required','string','Min:30'],
+            'description' => ['required','string','Min:100']
         ];
     }
 }

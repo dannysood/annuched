@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
+use App\Models\User;
 
 class PostController extends Controller
 {
@@ -15,7 +16,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return Post::orderBy('created_at', "desc")->get();
     }
 
     /**
@@ -26,8 +27,11 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        return Post::create($request->all());
+        // TODO temporary way to feed an owner id. Remove and use authorized user before golive.
+        $userid = User::latest()->first()->id;
+        $request->merge(['owner_id' => $userid]);
 
+        return Post::create($request->only(['title', 'description', 'owner_id']));
     }
 
     /**
@@ -38,11 +42,12 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return $post;
     }
 
     /**
-     * Update the specified resource in storage.
+     * Based on business requirements updation and deletion of posts is not allowed.
+     * This route should never be successfully hit bacause 405 error is explicitly thrown.
      *
      * @param  \App\Http\Requests\UpdatePostRequest  $request
      * @param  \App\Models\Post  $post
@@ -50,17 +55,18 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        return response(['message' => 'Updating posts isnt allowed'], 405);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Based on business requirements updation and deletion of posts is not allowed.
+     * This route should never be successfully hit bacause 405 error is explicitly thrown.
      *
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
     public function destroy(Post $post)
     {
-        //
+        return response(['message' => 'Deleting posts isnt allowed'], 405);
     }
 }
