@@ -6,6 +6,7 @@ use App\Events\PostCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Http\Resources\V1\PostResource;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -26,9 +27,7 @@ class PostController extends Controller
         // https://laravel.com/docs/9.x/pagination#cursor-vs-offset-pagination
         $cacheKey = $request->input('cursor') != null ? Config::get('constants.cache.keys.posts.paginationPrefix').$request->input('cursor') : Config::get('constants.cache.keys.posts.paginationPrefixRoot');
         return Cache::remember($cacheKey, Config::get('constants.cache.keys.posts.ttl'), function(){
-            return Post::with(['owner' => function ($query) {
-                $query->select('id','name');
-            }])->orderBy('created_at', "desc")->cursorPaginate(Config::get('constants.pageSize'));
+            return PostResource::collection(Post::with(['owner'])->orderBy('created_at', "desc")->cursorPaginate(Config::get('constants.pageSize')));
         });
 
     }
@@ -47,9 +46,8 @@ class PostController extends Controller
         $post = Post::create($request->only(['title', 'description', 'owner_id']));
         Event::dispatch(new PostCreated());
         return Cache::remember(Config::get('constants.cache.keys.posts.singleItemPrefix').$post->id, Config::get('constants.cache.keys.posts.ttl'), function() use(&$post){
-            return $post->load(['owner' => function ($query) {
-                $query->select('id','name');
-            }]);
+            // load owner details weven though the owner is the only one who can create so that the newly created post is immidiately available as a cached response
+            return new PostResource($post->load(['owner']));
         });
 
     }
@@ -64,10 +62,9 @@ class PostController extends Controller
     {
 
         return Cache::remember(Config::get('constants.cache.keys.posts.singleItemPrefix').$post->id, Config::get('constants.cache.keys.posts.ttl'), function() use(&$post){
-            return $post->load(['owner' => function ($query) {
-                $query->select('id','name');
-            }]);
+            return new PostResource($post->load(['owner']));
         });
+
 
     }
 
