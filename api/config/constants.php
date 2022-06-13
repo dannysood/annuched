@@ -1,6 +1,7 @@
 <?php
 return [
     'pageSize' => 2,
+    'rateLimit' => 60,
     'cache' => [
         'keys' => [
             'posts' => [
