@@ -8,10 +8,15 @@
         {
             "type": "vcs",
             "url": "https://github.com/dannysood/laravel-bad-word"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/dannysood/laravel-clear-expired-cache-file"
         }
     ],
     "require": {
         "php": "^8.0.2",
+        "arifhp86/laravel-clear-expired-cache-file": "dev-master",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.11",
         "laravel/sanctum": "^2.14.1",

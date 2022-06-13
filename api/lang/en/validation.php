@@ -22,6 +22,8 @@ return [
     'alpha_dash' => 'The :attribute must only contain letters, numbers, dashes and underscores.',
     'alpha_num' => 'The :attribute must only contain letters and numbers.',
     'array' => 'The :attribute must be an array.',
+    // TODO installed via self owned fork, figure out maintainence strategy to track remote
+    // https://github.com/dannysood/laravel-bad-word
     'bad_word' => 'The :attribute cannot contain bad words.',
     'before' => 'The :attribute must be a date before :date.',
     'before_or_equal' => 'The :attribute must be a date before or equal to :date.',
