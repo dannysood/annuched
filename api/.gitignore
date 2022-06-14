@@ -12,3 +12,10 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+
+# generated viabarryvdh/laravel-ide-helper
+# https://postsrc.com/code-snippets/how-to-solve-visual-studio-code-php-Intelephense-keep-showing-not-necessary-error
+_ide_helper.php
+
+# ignore firebase credentials
+*-firebase-adminsdk.json

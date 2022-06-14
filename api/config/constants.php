@@ -14,5 +14,11 @@ return [
                 'singleItemPrefix' => 'posts-single-',
             ]
         ]
+    ],
+    'jwt' => [
+        'firebase' => [
+            'isVerifyToken' => env('IS_FIREBASE_VERIFY_TOKEN', 'default'),
+            'algo' => env('JWT_ALGO', 'default'),
+        ]
     ]
 ];

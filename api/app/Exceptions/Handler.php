@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Kreait\Firebase\Exception\Auth\FailedToVerifyToken;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -46,6 +47,9 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (NotFoundHttpException $e, $request) {
             return response()->json(['message' => 'not found'], 404);
+        });
+        $this->renderable(function (FailedToVerifyToken $e, $request) {
+            return response()->json(['message' => 'Unauthorized'], 401);
         });
         $this->reportable(function (Throwable $e) {
             //
