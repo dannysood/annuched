@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('firebase_uid',50)->nullable()->unique();
+            $table->string('firebase_uid',50)->unique();
         });
     }
 
