@@ -57,14 +57,11 @@ class AuthServiceProvider extends ServiceProvider
             }
 
             $user = null;
+            $request->request->add(['email' => $email, 'name' => $name, 'firebase_uid' => $firebaseUid]);
             // TODO clean this up as this is a dirty way to if-else based on if this route is auth/create
-            if (str_contains($request->getPathInfo(), "auth/create")) {
-                $request->request->add(['email' => $email, 'name' => $name, 'firebase_uid' => $firebaseUid]);
-            } else {
-                // TODO use caching to avoid direct db calls to fetch authenticated user
-                $user = User::where('firebase_uid', $firebaseUid)->firstOrFail();
+            if (!str_contains($request->getPathInfo(), "auth/create")) {
+                $user = getAuthenticatedUserFromFirebaseUid($firebaseUid);
             }
-
             return $user;
         });
     }

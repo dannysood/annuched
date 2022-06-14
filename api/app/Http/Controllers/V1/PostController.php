@@ -30,9 +30,9 @@ class PostController extends Controller
         // cursor pagination provides better performance than paginate (which uses offset) as you dont need to invalidate caching and let it expire via ttl
         // https://laravel.com/docs/9.x/pagination#cursor-vs-offset-pagination
         $isFirstPage = $request->get('cursor') == null;
-        $cacheKey = $isFirstPage ? Config::get('constants.cache.keys.posts.paginationPrefixRoot') : Config::get('constants.cache.keys.posts.paginationPrefix').$request->get('cursor');
+        $cacheKey = $isFirstPage ? Config::get('constants.cache.posts.paginationPrefixRoot') : Config::get('constants.cache.posts.paginationPrefix').$request->get('cursor');
         $getQueryResultFromMainCacheOrDb = function(string $cacheKey) {
-            return Cache::remember($cacheKey, Config::get('constants.cache.keys.posts.ttlMain'), function(){
+            return Cache::remember($cacheKey, Config::get('constants.cache.posts.ttlMain'), function(){
                 return PostResource::collection(Post::with(['owner'])->orderBy('created_at', 'desc')->cursorPaginate(Config::get('constants.pageSize')));
             });
         };
@@ -45,7 +45,7 @@ class PostController extends Controller
         // remove expired cache keys from file cache before fetching details
         Artisan::call('cache:clear-expired');
         // use local file cache store to avoid repetitive load on main cache for non root page via cursor pagination
-        return Cache::store('file')->remember($cacheKey, Config::get('constants.cache.keys.posts.ttlFile'), function() use(&$cacheKey,&$getQueryResultFromMainCacheOrDb){
+        return Cache::store('file')->remember($cacheKey, Config::get('constants.cache.posts.ttlFile'), function() use(&$cacheKey,&$getQueryResultFromMainCacheOrDb){
             return $getQueryResultFromMainCacheOrDb($cacheKey);
         });
 
@@ -63,11 +63,11 @@ class PostController extends Controller
         $request->merge(['owner_id' => $userid]);
         $post = Post::create($request->only(['title', 'description', 'owner_id']));
         Event::dispatch(new PostCreated());
-        $cacheKey = Config::get('constants.cache.keys.posts.singleItemPrefix').$post->id;
+        $cacheKey = Config::get('constants.cache.posts.singleItemPrefix').$post->id;
         Artisan::call('cache:clear-expired');
         // use local file cache store to avoid repetitive load on main cache for non root page via cursor pagination
-        return Cache::store('file')->remember($cacheKey, Config::get('constants.cache.keys.posts.ttlFile'), function() use(&$cacheKey,&$post){
-            return Cache::remember($cacheKey, Config::get('constants.cache.keys.posts.ttlMain'), function() use(&$post){
+        return Cache::store('file')->remember($cacheKey, Config::get('constants.cache.posts.ttlFile'), function() use(&$cacheKey,&$post){
+            return Cache::remember($cacheKey, Config::get('constants.cache.posts.ttlMain'), function() use(&$post){
                 // load owner details weven though the owner is the only one who can create so that the newly created post is immidiately available as a cached response
                 return new PostResource($post->load(['owner']));
             });
@@ -83,11 +83,11 @@ class PostController extends Controller
     public function show(Post $post)
     {
 
-        $cacheKey = Config::get('constants.cache.keys.posts.singleItemPrefix').$post->id;
+        $cacheKey = Config::get('constants.cache.posts.singleItemPrefix').$post->id;
         Artisan::call('cache:clear-expired');
         // use local file cache store to avoid repetitive load on main cache for non root page via cursor pagination
-        return Cache::store('file')->remember($cacheKey, Config::get('constants.cache.keys.posts.ttlFile'), function() use(&$cacheKey,&$post){
-            return Cache::remember($cacheKey, Config::get('constants.cache.keys.posts.ttlMain'), function() use(&$post){
+        return Cache::store('file')->remember($cacheKey, Config::get('constants.cache.posts.ttlFile'), function() use(&$cacheKey,&$post){
+            return Cache::remember($cacheKey, Config::get('constants.cache.posts.ttlMain'), function() use(&$post){
                 // load owner details weven though the owner is the only one who can create so that the newly created post is immidiately available as a cached response
                 return new PostResource($post->load(['owner']));
             });

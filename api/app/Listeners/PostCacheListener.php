@@ -27,6 +27,6 @@ class PostCacheListener
      */
     public function handle($event)
     {
-        Cache::forget(Config::get('constants.cache.keys.posts.paginationPrefixRoot'));
+        Cache::forget(Config::get('constants.cache.posts.paginationPrefixRoot'));
     }
 }
