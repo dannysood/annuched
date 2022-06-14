@@ -11,6 +11,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
@@ -58,8 +59,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        // TODO temporary way to feed an owner id. Remove and use authorized user before golive.
-        $userid = User::latest()->first()->id;
+        $userid = Auth::user()->id;
         $request->merge(['owner_id' => $userid]);
         $post = Post::create($request->only(['title', 'description', 'owner_id']));
         Event::dispatch(new PostCreated());
