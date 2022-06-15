@@ -58,5 +58,5 @@ jobs:
         name: "${{ github.job }}-${{ matrix.php-version }}.coverage"
         path: |
           api/coverage.xml
-          tests/reports/
+          api/tests/reports/
         retention-days: 1
