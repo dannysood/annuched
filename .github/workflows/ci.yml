@@ -1,5 +1,4 @@
-name: Laravel
-
+name: API
 on:
   push:
     branches: [ "master" ]
@@ -12,7 +11,6 @@ jobs:
     defaults:
       run:
         working-directory: api
-    environment: TEST
     steps:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -41,7 +39,7 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
-      run: php artisan test --coverage --min=80.3 --coverage-clover='tests/reports/coverage.xml'  --coverage-html='tests/reports/coverage'
+      run: php artisan test --coverage --min=6.2 --coverage-clover='tests/reports/coverage.xml'  --coverage-html='tests/reports/coverage'
     - name: "Upload coverage file"
       uses: "actions/upload-artifact@v2"
       # skip locally in ACT
