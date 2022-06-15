@@ -1,8 +1,8 @@
 // Import FirebaseAuth and firebase.
 import React, { useEffect, useState } from 'react';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+import {initializeApp} from 'firebase/app';
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { StyledFirebaseAuth } from './StyledFirebaseAuth';
 
 // Configure Firebase.
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -15,8 +15,9 @@ const firebaseConfig = {
   appId: "1:328450220499:web:b6cb095f9477b106510f26",
   measurementId: "G-1FPS8KM9PE"
 };
-firebase.initializeApp(firebaseConfig);
 
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
 // Configure FirebaseUI.
 const uiConfig = {
   // Popup signin flow rather than redirect flow.
@@ -24,7 +25,7 @@ const uiConfig = {
   // We will display Google and Facebook as auth providers.
   signInOptions: [
     // firebase.auth.EmailAuthProvider.PROVIDER_ID,
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    GoogleAuthProvider.PROVIDER_ID,
   ],
   callbacks: {
     // Avoid redirects after sign-in.
@@ -32,18 +33,21 @@ const uiConfig = {
   },
 };
 
+
+
 const SignInScreen = () => {
   const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
   const [token, setToken] = useState(""); // Local signed-in state.
-  if(firebase.auth().currentUser){
-    firebase.auth().currentUser!.getIdToken(true).then(token => {
+
+  if(auth.currentUser){
+    auth.currentUser!.getIdToken(true).then(token => {
       setToken(token);
       console.log(token);
     })
   }
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
-    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
+    const unregisterAuthObserver = auth.onAuthStateChanged(user => {
       setIsSignedIn(!!user);
     });
 
@@ -55,15 +59,15 @@ const SignInScreen = () => {
       <div>
         <h1>My App</h1>
         <p>Please sign-in:</p>
-        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
       </div>
     );
   }
   return (
     <div>
       <h1>Annuched Blogging Platform</h1>
-      <p>Welcome {firebase.auth().currentUser!.displayName}! You are now signed-in!</p>
-      <a onClick={() => firebase.auth().signOut()}>Sign-out</a>
+      <p>Welcome {auth.currentUser!.displayName}! You are now signed-in!</p>
+      <a onClick={() => auth.signOut()}>Sign-out</a>
     </div>
   );
 }

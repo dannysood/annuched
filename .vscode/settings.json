@@ -3,6 +3,8 @@
         "ui",
         "blog",
         "auth",
-        "dev"
+        "dev",
+        "ci",
+        "test"
     ]
 }
