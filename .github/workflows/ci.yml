@@ -26,8 +26,7 @@ jobs:
       shell: bash
       run: |
         echo ${{ secrets.API_TEST_ENV }} | base64 --decode > .env
-        source .env
-        echo $LOG_CHANNEL
+
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-reqs
     - name: Generate key
