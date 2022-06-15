@@ -24,4 +24,13 @@ jobs:
         CI: false
       run: |
         npm ci
-        npm test
+        npm test -- --coverage --watchAll=false
+    - name: Upload coverage file
+      uses: "actions/upload-artifact@v2"
+      # skip locally in ACT
+      if: ${{ !env.ACT }}
+      with:
+        name: "${{ github.job }}.coverage"
+        path: |
+          web/coverage/
+        retention-days: 1
