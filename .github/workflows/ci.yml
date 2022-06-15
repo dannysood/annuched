@@ -45,7 +45,6 @@ jobs:
     - run: |
         ls
         ls -al
-
     - name: "Upload coverage file"
       uses: "actions/upload-artifact@v2"
       with:
