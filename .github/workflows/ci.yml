@@ -37,19 +37,11 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
-      run: vendor/bin/phpunit --coverage-clover=coverage.xml
     - name: Execute tests via artisan
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
-      run: php artisan test --coverage-html tests/reports/coverage
-    - run: |
-        ls
-        ls -al
+      run: php artisan test --coverage --coverage-clover='tests/reports/coverage.xml'  --coverage-html='tests/reports/coverage'
     - name: "Upload coverage file"
       uses: "actions/upload-artifact@v2"
       # skip locally in ACT
@@ -57,6 +49,5 @@ jobs:
       with:
         name: "${{ github.job }}-${{ matrix.php-version }}.coverage"
         path: |
-          api/coverage.xml
           api/tests/reports/
         retention-days: 1
