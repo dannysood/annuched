@@ -34,3 +34,21 @@ jobs:
         path: |
           web/coverage/
         retention-days: 1
+  web-docker-build:
+    needs: web-tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag us-central1-docker.pkg.dev/annuched/prod-web/web:latest
+      - name: Login to Google Artifact Registry
+        uses: docker/login-action@v2
+        with:
+          registry: us-central1-docker.pkg.dev
+          username: _json_key
+          password: ${{ secrets.API_PROD_GCP_SERVICE_ACCOUNT }}
+      - name: Docker Push
+        run: docker push us-central1-docker.pkg.dev/annuched/prod-web/web:latest
