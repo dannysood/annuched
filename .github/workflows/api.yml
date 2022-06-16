@@ -59,7 +59,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-    - run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Docker Login
     - run: cat ${{secrets.API_PROD_GCP_SERVICE_ACCOUNT}} | docker login -u _json_key --password-stdin https://${ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev
 
 
