@@ -76,7 +76,8 @@ jobs:
       run:
         working-directory: api
     steps:
-      - id: 'Authenticate gcloud'
+      - uses: actions/checkout@v3
+      - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
           credentials_json: '${{ secrets.API_PROD_GCP_SERVICE_ACCOUNT }}'
