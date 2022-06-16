@@ -59,7 +59,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag api:$(date +%s) --tag api:latest
+        run: docker build . --file Dockerfile --tag us-central1-docker.pkg.dev/annuched/prod-api/api:latest
       # - name: Docker Login
       #   run: echo ${{secrets.API_PROD_GCP_SERVICE_ACCOUNT}} | docker login -u _json_key --password-stdin https://us-central1-docker.pkg.dev
       - name: Login to Google Artifact Registry
@@ -69,5 +69,5 @@ jobs:
           username: _json_key
           password: ${{ secrets.API_PROD_GCP_SERVICE_ACCOUNT }}
       - name: Docker Push
-        run: docker push api:latest
+        run: docker push us-central1-docker.pkg.dev/annuched/prod-api/api:latest
 
