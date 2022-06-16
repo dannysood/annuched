@@ -52,3 +52,23 @@ jobs:
           password: ${{ secrets.API_PROD_GCP_SERVICE_ACCOUNT }}
       - name: Docker Push
         run: docker push us-central1-docker.pkg.dev/annuched/prod-web/web:latest
+
+  web-deploy-cloud-run:
+    needs: web-docker-build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - id: 'Authenticate gcloud'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.API_PROD_GCP_SERVICE_ACCOUNT }}'
+
+      - name: 'Deploy to Cloud Run'
+        uses: 'google-github-actions/deploy-cloudrun@v0'
+        with:
+          service: prod-web
+          image: us-central1-docker.pkg.dev/annuched/prod-web/web:latest
+          region: us-central1
+          # env_vars: 'NAME="Hello World"'
