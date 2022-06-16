@@ -1,9 +1,9 @@
 name: API
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
 
 jobs:
   api-tests:
@@ -12,43 +12,43 @@ jobs:
       run:
         working-directory: api
     steps:
-    - name: Setup php
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.1'
-        extensions: mbstring, xml, ctype, iconv, intl, pgsql, redis, soap, zip, mcrypt, pdo_pgsql
-        tools: composer:v2
-        coverage: xdebug
-    - uses: actions/checkout@v3
-    - name: Create .env
-      shell: bash
-      run: |
-        echo ${{ secrets.API_TEST_ENV }} | base64 --decode > .env
+      - name: Setup php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          extensions: mbstring, xml, ctype, iconv, intl, pgsql, redis, soap, zip, mcrypt, pdo_pgsql
+          tools: composer:v2
+          coverage: xdebug
+      - uses: actions/checkout@v3
+      - name: Create .env
+        shell: bash
+        run: |
+          echo ${{ secrets.API_TEST_ENV }} | base64 --decode > .env
 
-    - name: Install dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-reqs
-    - name: Generate key
-      run: php artisan key:generate
-    - name: Directory Permissions
-      run: chmod -R 777 storage bootstrap/cache
-    - name: Create database
-      run: |
-        mkdir -p database
-        touch database/database.sqlite
-    - name: Execute tests via artisan
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
-      run: php artisan test --coverage --min=6.2 --coverage-clover='tests/reports/coverage.xml'  --coverage-html='tests/reports/coverage'
-    - name: Upload coverage file
-      uses: "actions/upload-artifact@v2"
-      # skip locally in ACT
-      if: ${{ !env.ACT }}
-      with:
-        name: "${{ github.job }}-${{ matrix.php-version }}.coverage"
-        path: |
-          api/tests/reports/
-        retention-days: 1
+      - name: Install dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-reqs
+      - name: Generate key
+        run: php artisan key:generate
+      - name: Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+      - name: Create database
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+      - name: Execute tests via artisan
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        run: php artisan test --coverage --min=6.2 --coverage-clover='tests/reports/coverage.xml'  --coverage-html='tests/reports/coverage'
+      - name: Upload coverage file
+        uses: "actions/upload-artifact@v2"
+        # skip locally in ACT
+        if: ${{ !env.ACT }}
+        with:
+          name: "${{ github.job }}-${{ matrix.php-version }}.coverage"
+          path: |
+            api/tests/reports/
+          retention-days: 1
 
   api-docker-build:
     needs: api-tests
@@ -57,10 +57,8 @@ jobs:
       run:
         working-directory: api
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-    - name: Docker Login
-    - run: cat ${{secrets.API_PROD_GCP_SERVICE_ACCOUNT}} | docker login -u _json_key --password-stdin https://${ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev
-
-
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Docker Login
+        run: cat ${{secrets.API_PROD_GCP_SERVICE_ACCOUNT}} | docker login -u _json_key --password-stdin https://${ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev
