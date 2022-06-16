@@ -57,6 +57,10 @@ jobs:
       run:
         working-directory: api
     steps:
+      - name: Create .env
+        shell: bash
+        run: |
+          echo ${{ secrets.API_PROD_ENV }} | base64 --decode > .env
       - uses: actions/checkout@v3
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag us-central1-docker.pkg.dev/annuched/prod-api/api:latest
@@ -75,7 +79,6 @@ jobs:
     defaults:
       run:
         working-directory: api
-
     steps:
       - uses: actions/checkout@v3
       - id: 'auth'
