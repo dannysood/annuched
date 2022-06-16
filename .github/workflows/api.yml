@@ -49,3 +49,14 @@ jobs:
         path: |
           api/tests/reports/
         retention-days: 1
+
+  api-docker-build:
+    needs: api-tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
