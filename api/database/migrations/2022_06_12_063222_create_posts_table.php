@@ -21,6 +21,8 @@ return new class extends Migration
             $table->uuid('owner_id');
             $table->foreign('owner_id')->references('id')->on('users');
             $table->timestamps();
+            $table->index('created_at');
+            $table->index('updated_at');
         });
     }
 

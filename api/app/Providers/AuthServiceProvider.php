@@ -4,14 +4,14 @@ namespace App\Providers;
 
 use App\Models\User;
 use Auth;
-use Firebase\JWT\JWT;
+use ErrorException;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Gate;
 use Faker\Factory as Faker;
 use Illuminate\Support\Str;
 use Kreait\Laravel\Firebase\Facades\Firebase;
+use Throwable;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -39,18 +39,31 @@ class AuthServiceProvider extends ServiceProvider
 
 
 
-
+            $auth = Firebase::auth();
             if (Config::get('constants.jwt.firebase.isVerifyToken') == false) {
                 // To be used for user seeding and unit testing with expired jwt tokens
+                try {
+                    $firebaseJWTToken = substr($request->header('Authorization'), 7);
+                    $verifiedIdToken = $auth->verifyIdToken($firebaseJWTToken, true);
+                    $firebaseUid = $verifiedIdToken->claims()->get('user_id');
+                    $email = $verifiedIdToken->claims()->get('email');
+                    $name = $verifiedIdToken->claims()->get('name');
+                    if(User::where('email',$email)->first() == null){
+                        throw new ErrorException('Error found');;
+                    }
+                } catch(Throwable $e) {
+                    report($e);
+                    $faker = Faker::create();
+                    $firebaseUid = $faker->name();
+                    $email = $faker->unique()->safeEmail();
+                    $name = Str::random(28);
+                }
 
-                $faker = Faker::create();
-                $firebaseUid = $faker->name();
-                $email = $faker->unique()->safeEmail();
-                $name = Str::random(28);
             } else {
                 $firebaseJWTToken = substr($request->header('Authorization'), 7);
-                $auth = Firebase::auth();
+
                 $verifiedIdToken = $auth->verifyIdToken($firebaseJWTToken, true);
+
                 $firebaseUid = $verifiedIdToken->claims()->get('user_id');
                 $email = $verifiedIdToken->claims()->get('email');
                 $name = $verifiedIdToken->claims()->get('name');

@@ -1,9 +1,8 @@
 <?php
 return [
-    'pageSize' => 2,
+    'pageSize' => 4,
     'rateLimit' => 60,
     'cache' => [
-
         'posts' => [
             'paginationPrefixRoot' => 'posts-pagination-first',
             // the business requirement is 2-3 posts per hour so we will anticipate 2.5 posts per hour or 1 every 24 minutes that is 1440 seconds
@@ -21,7 +20,6 @@ return [
     'jwt' => [
         'firebase' => [
             'isVerifyToken' => env('IS_FIREBASE_VERIFY_TOKEN', 'default'),
-            'algo' => env('JWT_ALGO', 'default'),
         ]
     ]
 ];
