@@ -59,13 +59,13 @@ jobs:
       run:
         working-directory: api
     steps:
+      - uses: actions/checkout@v3
       - name: Create .env
         shell: bash
         env:
           API_PROD_ENV_DATA: ${{ secrets.API_PROD_ENV_DATA }}
         run: |
           echo $API_PROD_ENV_DATA | base64 --decode > .env
-      - uses: actions/checkout@v3
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag us-central1-docker.pkg.dev/annuched/prod-api/api:latest
       - name: Login to Google Artifact Registry
