@@ -1,7 +1,0 @@
-{
-    "name": "my-project",
-    "jest": {
-        "collectCoverage": true,
-        "verbose": true
-    }
-}
