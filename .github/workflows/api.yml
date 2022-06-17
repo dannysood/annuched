@@ -63,8 +63,11 @@ jobs:
         shell: bash
         env:
           API_PROD_ENV_DATA: ${{ secrets.API_PROD_ENV }}
+          API_PROD_FIREBASE_SERVICE_ACCOUNT_DATA: ${{ secrets.API_PROD_FIREBASE_SERVICE_ACCOUNT }}
+
         run: |
           echo $API_PROD_ENV_DATA | base64 --decode > .env
+          echo $API_PROD_FIREBASE_SERVICE_ACCOUNT_DATA > ./storage/certs/annuched-firebase-adminsdk.json
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag us-central1-docker.pkg.dev/annuched/prod-api/api:latest
       - name: Login to Google Artifact Registry
@@ -97,31 +100,31 @@ jobs:
           region: us-central1
           # env_vars: 'NAME="Hello World"'
 
-  api-migration:
-    needs: api-deploy-cloud-run
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: api
-    steps:
-      - name: Setup php
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.1"
-          extensions: mbstring, xml, ctype, iconv, intl, pgsql, redis, soap, zip, mcrypt, pdo_pgsql
-          tools: composer:v2
-          coverage: xdebug
-      - uses: actions/checkout@v3
-      - name: Create .env
-        shell: bash
-        env:
-          API_PROD_ENV_DATA: ${{ secrets.API_PROD_ENV }}
-        run: |
-          echo $API_PROD_ENV_DATA | base64 --decode > .env
+  # api-migration:
+  #   needs: api-deploy-cloud-run
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: api
+  #   steps:
+  #     - name: Setup php
+  #       uses: shivammathur/setup-php@v2
+  #       with:
+  #         php-version: "8.1"
+  #         extensions: mbstring, xml, ctype, iconv, intl, pgsql, redis, soap, zip, mcrypt, pdo_pgsql
+  #         tools: composer:v2
+  #         coverage: xdebug
+  #     - uses: actions/checkout@v3
+  #     - name: Create .env
+  #       shell: bash
+  #       env:
+  #         API_PROD_ENV_DATA: ${{ secrets.API_PROD_ENV }}
+  #       run: |
+  #         echo $API_PROD_ENV_DATA | base64 --decode > .env
 
-      - name: Install dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-reqs
-      - name: Execute migrations
-        run: php artisan migrate
+  #     - name: Install dependencies
+  #       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-reqs
+  #     - name: Execute migrations
+  #       run: php artisan migrate
 
 
