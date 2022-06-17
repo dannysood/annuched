@@ -98,6 +98,7 @@ jobs:
           # env_vars: 'NAME="Hello World"'
 
   api-migration:
+    needs: api-deploy-cloud-run
     runs-on: ubuntu-latest
     defaults:
       run:
