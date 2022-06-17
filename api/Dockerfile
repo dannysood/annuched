@@ -1,6 +1,7 @@
-FROM php:8.1-fpm-alpine
+FROM php:8.1-fpm
 
 RUN apk add --no-cache nginx wget
+RUN pecl install redis
 
 RUN mkdir -p /run/nginx
 
