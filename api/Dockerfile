@@ -2,7 +2,7 @@ FROM php:8.1-fpm-alpine
 
 RUN apk add --no-cache nginx wget
 
-RUN pecl install redis
+RUN apk add autoconf gcc g++ make && pecl install redis && docker-php-ext-enable redis
 
 RUN mkdir -p /run/nginx
 
