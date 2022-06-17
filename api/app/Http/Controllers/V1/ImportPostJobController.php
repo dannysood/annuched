@@ -40,9 +40,18 @@ class ImportPostJobController extends Controller
         $result = $response->json()['data'];
         if(count($result) > 0){
             foreach ($result as $post) {
+                // TODO fix uuid auto generate issue in Post::insert to eable bulk import
+                // $posts = array();
+                // foreach ($result as $post) {
+                //     $posts[] = ['title'=> $post['title'],'description' => $post['body'], 'owner_id' => $user->id,'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')];
+                // }
+                // print(json_encode($posts));
+                // Post::insert($posts);
+
                 Post::create(['title'=> $post['title'],'description' => $post['body'], 'owner_id' => $user->id]);
               }
         }
+        print("***import posts from remote successful***");
         return "success";
     }
 }
