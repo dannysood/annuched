@@ -59,8 +59,10 @@ jobs:
     steps:
       - name: Create .env
         shell: bash
+        env:
+          API_PROD_ENV_DATA: ${{ secrets.API_PROD_ENV_DATA }}
         run: |
-          echo ${{ secrets.API_PROD_ENV }} | base64 --decode > .env
+          echo $API_PROD_ENV_DATA | base64 --decode > .env
       - uses: actions/checkout@v3
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag us-central1-docker.pkg.dev/annuched/prod-api/api:latest
