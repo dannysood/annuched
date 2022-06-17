@@ -3,6 +3,10 @@ FROM php:8.1-fpm-alpine
 RUN apk add --no-cache nginx wget
 
 RUN apk add autoconf gcc g++ make && pecl install redis && docker-php-ext-enable redis
+RUN apt-get install -y libpq-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql
+
 
 RUN mkdir -p /run/nginx
 
