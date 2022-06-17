@@ -9,6 +9,8 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
+use Faker\Factory as Faker;
+use Illuminate\Support\Str;
 use Kreait\Laravel\Firebase\Facades\Firebase;
 
 class AuthServiceProvider extends ServiceProvider
@@ -35,20 +37,18 @@ class AuthServiceProvider extends ServiceProvider
         // this guard checks if firebase-token is set and if so then tries to login a user using it
         Auth::viaRequest('firebase-token', function (Request $request) {
 
-            $firebaseJWTToken = substr($request->header('Authorization'), 7);
-            $firebaseUid = "";
-            $name = "";
-            $email = "";
+
+
 
             if (Config::get('constants.jwt.firebase.isVerifyToken') == false) {
                 // To be used for user seeding and unit testing with expired jwt tokens
-                $tks = explode('.', $firebaseJWTToken);
-                list($headb64, $bodyb64, $cryptob64) = $tks;
-                $payload = JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64));
-                $firebaseUid = $payload->user_id;
-                $email = $payload->email;
-                $name = $payload->name;
+
+                $faker = Faker::create();
+                $firebaseUid = $faker->name();
+                $email = $faker->unique()->safeEmail();
+                $name = Str::random(28);
             } else {
+                $firebaseJWTToken = substr($request->header('Authorization'), 7);
                 $auth = Firebase::auth();
                 $verifiedIdToken = $auth->verifyIdToken($firebaseJWTToken, true);
                 $firebaseUid = $verifiedIdToken->claims()->get('user_id');
