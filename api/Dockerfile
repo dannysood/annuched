@@ -10,6 +10,15 @@ RUN apk add libpq-dev \
 COPY docker/crontab.txt /crontab.txt
 RUN /usr/bin/crontab /crontab.txt
 
+RUN apk add git
+ RUN apk add autoconf gcc g++ make && pecl install redis && docker-php-ext-enable redis
+ RUN apk add libpq-dev \
+     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+     && docker-php-ext-install pdo pdo_pgsql pgsql
+
+ COPY docker/crontab.txt /crontab.txt
+ RUN /usr/bin/crontab /crontab.txt
+
 RUN mkdir -p /run/nginx
 
 COPY docker/nginx.conf /etc/nginx/nginx.conf

@@ -1,8 +1,10 @@
 name: API
 on:
   push:
-    branches: ["main"]
-
+    branches: ["stablebackup"]
+  pull_request:
+    branches: ["stablebackup"]
+    
 jobs:
   api-tests:
     runs-on: ubuntu-latest
