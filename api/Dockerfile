@@ -1,7 +1,7 @@
 FROM php:8.1-fpm-alpine3.15
 
 RUN apk add --no-cache nginx wget
-
+RUN apk add git
 RUN apk add autoconf gcc g++ make && pecl install redis && docker-php-ext-enable redis
 RUN apk add libpq-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
