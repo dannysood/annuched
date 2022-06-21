@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0edee6d3f5eeabbc17647c3c6058a6c3",
+    "content-hash": "7958412f21ce80c2f03a286996b95019",
     "packages": [
         {
             "name": "arifhp86/laravel-clear-expired-cache-file",
@@ -61,21 +61,20 @@
         },
         {
             "name": "beste/clock",
-            "version": "2.1.0",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/beste/clock.git",
-                "reference": "201ed087ca0fd9763716335a567f698482fe0e62"
+                "reference": "10c02d2b49809168903a6b2e15f5001001972a2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/beste/clock/zipball/201ed087ca0fd9763716335a567f698482fe0e62",
-                "reference": "201ed087ca0fd9763716335a567f698482fe0e62",
+                "url": "https://api.github.com/repos/beste/clock/zipball/10c02d2b49809168903a6b2e15f5001001972a2e",
+                "reference": "10c02d2b49809168903a6b2e15f5001001972a2e",
                 "shasum": ""
             },
             "require": {
-                "php": "~7.4.0 || ~8.0.0 || ~8.1.0",
-                "stella-maris/clock": "^0.1.4"
+                "php": "~7.4.0 || ~8.0.0 || ~8.1.0"
             },
             "provide": {
                 "psr/clock-implementation": "1.0"
@@ -92,6 +91,7 @@
             "type": "library",
             "autoload": {
                 "files": [
+                    "src/psr-polyfill.php",
                     "src/Clock.php"
                 ],
                 "psr-4": {
@@ -117,7 +117,7 @@
             ],
             "support": {
                 "issues": "https://github.com/beste/clock/issues",
-                "source": "https://github.com/beste/clock/tree/2.1.0"
+                "source": "https://github.com/beste/clock/tree/1.0.0"
             },
             "funding": [
                 {
@@ -125,7 +125,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-24T13:39:46+00:00"
+            "time": "2021-12-10T15:09:27+00:00"
         },
         {
             "name": "beste/json",
@@ -1408,30 +1408,30 @@
         },
         {
             "name": "kreait/firebase-php",
-            "version": "6.4.1",
+            "version": "6.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-php.git",
-                "reference": "c14ed1b1b06feab070be43b585a60efb8b1219af"
+                "reference": "7eee99eb882957350573f3986fae6d2912ad348a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/c14ed1b1b06feab070be43b585a60efb8b1219af",
-                "reference": "c14ed1b1b06feab070be43b585a60efb8b1219af",
+                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/7eee99eb882957350573f3986fae6d2912ad348a",
+                "reference": "7eee99eb882957350573f3986fae6d2912ad348a",
                 "shasum": ""
             },
             "require": {
-                "beste/clock": "^2.1",
+                "beste/clock": "^1.0",
                 "beste/json": "^1.0",
                 "ext-ctype": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
-                "google/auth": "^1.21",
-                "google/cloud-core": "^1.44.2",
-                "google/cloud-storage": "^1.26.2",
-                "guzzlehttp/guzzle": "^7.4.4",
-                "kreait/firebase-tokens": "^3.0",
+                "google/auth": "^1.18",
+                "google/cloud-core": "^1.42.2",
+                "google/cloud-storage": "^1.24.1",
+                "guzzlehttp/guzzle": "^7.4",
+                "kreait/firebase-tokens": "^2.2.0",
                 "lcobucci/jwt": "^4.1",
                 "mtdowling/jmespath.php": "^2.6.1",
                 "php": "^7.4|^8.0",
@@ -1448,7 +1448,7 @@
                 "phpstan/phpstan": "^1.4",
                 "phpstan/phpstan-phpunit": "^1.0",
                 "phpunit/phpunit": "^9.5.10",
-                "rector/rector": "^0.13.4",
+                "rector/rector": "^0.12.5",
                 "symfony/var-dumper": "^5.4|^6.0",
                 "symplify/easy-coding-standard": "^10.0"
             },
@@ -1499,28 +1499,28 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-06-14T23:12:24+00:00"
+            "time": "2022-03-02T23:32:31+00:00"
         },
         {
             "name": "kreait/firebase-tokens",
-            "version": "3.0.1",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-tokens-php.git",
-                "reference": "fd4719a7a0994592b9bc5e1260b9874ead338f51"
+                "reference": "a672fa738779cad4b5a1b3c4a6e8ed733ceb9922"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-tokens-php/zipball/fd4719a7a0994592b9bc5e1260b9874ead338f51",
-                "reference": "fd4719a7a0994592b9bc5e1260b9874ead338f51",
+                "url": "https://api.github.com/repos/kreait/firebase-tokens-php/zipball/a672fa738779cad4b5a1b3c4a6e8ed733ceb9922",
+                "reference": "a672fa738779cad4b5a1b3c4a6e8ed733ceb9922",
                 "shasum": ""
             },
             "require": {
-                "beste/clock": "^2.0",
+                "beste/clock": "^1.0",
                 "ext-json": "*",
                 "ext-openssl": "*",
                 "fig/http-message-util": "^1.1.5",
-                "guzzlehttp/guzzle": "^7.4.4",
+                "guzzlehttp/guzzle": "^7.0",
                 "lcobucci/jwt": "^4.1.5",
                 "php": "^7.4|^8.0",
                 "psr/cache": "^1.0|^2.0|^3.0"
@@ -1565,7 +1565,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kreait/firebase-tokens-php/issues",
-                "source": "https://github.com/kreait/firebase-tokens-php/tree/3.0.1"
+                "source": "https://github.com/kreait/firebase-tokens-php/tree/2.3.0"
             },
             "funding": [
                 {
@@ -1573,7 +1573,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-06-10T08:47:22+00:00"
+            "time": "2022-04-15T22:13:01+00:00"
         },
         {
             "name": "kreait/laravel-firebase",
@@ -2040,24 +2040,23 @@
         },
         {
             "name": "lcobucci/clock",
-            "version": "2.2.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/clock.git",
-                "reference": "fb533e093fd61321bfcbac08b131ce805fe183d3"
+                "reference": "903513d28e85376a33385ebc601afd2ee69e5653"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/clock/zipball/fb533e093fd61321bfcbac08b131ce805fe183d3",
-                "reference": "fb533e093fd61321bfcbac08b131ce805fe183d3",
+                "url": "https://api.github.com/repos/lcobucci/clock/zipball/903513d28e85376a33385ebc601afd2ee69e5653",
+                "reference": "903513d28e85376a33385ebc601afd2ee69e5653",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.0",
-                "stella-maris/clock": "^0.1.4"
+                "php": "^8.0"
             },
             "require-dev": {
-                "infection/infection": "^0.26",
+                "infection/infection": "^0.25",
                 "lcobucci/coding-standard": "^8.0",
                 "phpstan/extension-installer": "^1.1",
                 "phpstan/phpstan": "^0.12",
@@ -2085,7 +2084,7 @@
             "description": "Yet another clock abstraction",
             "support": {
                 "issues": "https://github.com/lcobucci/clock/issues",
-                "source": "https://github.com/lcobucci/clock/tree/2.2.0"
+                "source": "https://github.com/lcobucci/clock/tree/2.1.0"
             },
             "funding": [
                 {
@@ -2097,7 +2096,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2022-04-19T19:34:17+00:00"
+            "time": "2021-10-31T21:32:07+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -3931,28 +3930,28 @@
         },
         {
             "name": "stella-maris/clock",
-            "version": "0.1.4",
+            "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://gitlab.com/stella-maris/clock.git",
-                "reference": "8a0a967896df4c63417385dc69328a0aec84d9cf"
+                "url": "https://github.com/dannysood/clock.git",
+                "reference": "71464b66b1ba68d8fe5429c4d372c8354d74cecf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/stella-maris%2Fclock/repository/archive.zip?sha=8a0a967896df4c63417385dc69328a0aec84d9cf",
-                "reference": "8a0a967896df4c63417385dc69328a0aec84d9cf",
+                "url": "https://api.github.com/repos/dannysood/clock/zipball/71464b66b1ba68d8fe5429c4d372c8354d74cecf",
+                "reference": "71464b66b1ba68d8fe5429c4d372c8354d74cecf",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.0|^8.0"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "StellaMaris\\Clock\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3971,10 +3970,10 @@
                 "psr20"
             ],
             "support": {
-                "issues": "https://gitlab.com/stella-maris/clock/-/issues",
-                "source": "https://gitlab.com/stella-maris/clock/-/tree/0.1.4"
+                "source": "https://github.com/dannysood/clock/tree/main",
+                "issues": "https://github.com/dannysood/clock/issues"
             },
-            "time": "2022-04-17T14:12:26+00:00"
+            "time": "2022-04-17T14:39:49+00:00"
         },
         {
             "name": "symfony/cache",
@@ -9812,7 +9811,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "arifhp86/laravel-clear-expired-cache-file": 20,
-        "patoui/laravel-bad-word": 20
+        "patoui/laravel-bad-word": 20,
+        "stella-maris/clock": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
