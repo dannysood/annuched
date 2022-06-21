@@ -1,7 +1,7 @@
 name: Web
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   web-tests:
@@ -10,28 +10,28 @@ jobs:
       run:
         working-directory: web
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 14
-        cache: 'npm'
-        cache-dependency-path: web/package-lock.json
-    - name: npm ci, build and test
-      env:
-        # CI set to true by default which results in warnings being treated as errors
-        CI: false
-      run: |
-        npm ci
-        npm test -- --coverage --watchAll=false
-    - name: Upload coverage file
-      uses: "actions/upload-artifact@v2"
-      # skip locally in ACT
-      if: ${{ !env.ACT }}
-      with:
-        name: "${{ github.job }}.coverage"
-        path: |
-          web/coverage/
-        retention-days: 1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: "npm"
+          cache-dependency-path: web/package-lock.json
+      - name: npm ci, build and test
+        env:
+          # CI set to true by default which results in warnings being treated as errors
+          CI: false
+        run: |
+          npm ci
+          npm test -- --coverage --watchAll=false
+      - name: Upload coverage file
+        uses: "actions/upload-artifact@v2"
+        # skip locally in ACT
+        if: ${{ !env.ACT }}
+        with:
+          name: "${{ github.job }}.coverage"
+          path: |
+            web/coverage/
+          retention-days: 1
   web-docker-build:
     needs: web-tests
     runs-on: ubuntu-latest
@@ -65,13 +65,13 @@ jobs:
         working-directory: web
     steps:
       - uses: actions/checkout@v3
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v0'
+      - id: "auth"
+        uses: "google-github-actions/auth@v0"
         with:
-          credentials_json: '${{ secrets.API_PROD_GCP_SERVICE_ACCOUNT }}'
+          credentials_json: "${{ secrets.API_PROD_GCP_SERVICE_ACCOUNT }}"
 
-      - name: 'Deploy to Cloud Run'
-        uses: 'google-github-actions/deploy-cloudrun@v0'
+      - name: "Deploy to Cloud Run"
+        uses: "google-github-actions/deploy-cloudrun@v0"
         with:
           service: prod-web
           image: us-central1-docker.pkg.dev/annuched/prod-web/web:latest

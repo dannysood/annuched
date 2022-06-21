@@ -12,6 +12,7 @@ use Faker\Factory as Faker;
 use Illuminate\Support\Str;
 use Kreait\Laravel\Firebase\Facades\Firebase;
 use Throwable;
+use Validator;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,53 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
     ];
+
+    /**
+     * bypass firebase auth header validation for authenticating or creating users for
+     * user seeding, feature testing and load testing
+     */
+    private function fakeUserAuth(Request $request)
+    {
+        $firebaseUid = $request->header('firebase-uid-for-testing');
+                Validator::make(['firebase-uid-for-testing' => $firebaseUid], [
+                    'firebase-uid-for-testing' => 'required|string|size:28',
+                ])->validate();
+                $isCreateUserRequest = str_contains($request->getPathInfo(), "auth/create");
+                // To be used for user seeding, feature and load testing
+                if ($isCreateUserRequest) {
+                    $faker = Faker::create();
+                    $email = $faker->unique()->safeEmail();
+                    $name = Str::random(28);
+                    $request->request->add(['email' => $email, 'name' => $name, 'firebase_uid' => $firebaseUid]);
+                    return null;
+                } else {
+                    return getUserFromFirebaseUid($firebaseUid);
+                }
+    }
+    /**
+     * validate firebase auth header and either authenticate user or
+     * create request elements for create user
+     */
+    private function realUserAuth(Request $request)
+    {
+        // real user registration to be used in live environments
+        $auth = Firebase::auth();
+        $firebaseJWTToken = substr($request->header('Authorization'), 7);
+        $verifiedIdToken = $auth->verifyIdToken($firebaseJWTToken, true);
+        $firebaseUid = $verifiedIdToken->claims()->get('user_id');
+        $isCreateUserRequest = str_contains($request->getPathInfo(), "auth/create");
+        if ($isCreateUserRequest) {
+            $firebaseUid = $verifiedIdToken->claims()->get('user_id');
+            $email = $verifiedIdToken->claims()->get('email');
+            $name = $verifiedIdToken->claims()->get('name');
+            $request->request->add(['email' => $email, 'name' => $name, 'firebase_uid' => $firebaseUid]);
+            return null;
+
+        } else {
+            return getUserFromFirebaseUid($firebaseUid);
+        }
+    }
+
 
     /**
      * Register any authentication / authorization services.
@@ -37,45 +85,18 @@ class AuthServiceProvider extends ServiceProvider
         // this guard checks if firebase-token is set and if so then tries to login a user using it
         Auth::viaRequest('firebase-token', function (Request $request) {
 
+            //
+            // TODO currently auth skipped enitrely for jobs, figure out a better way to do the same
+            if (str_contains($request->getPathInfo(), "job/fetch-from-remote-blog-api")) {
+                return null;
+            }
 
-
-            $auth = Firebase::auth();
             if (Config::get('constants.jwt.firebase.isVerifyToken') == false) {
-                // To be used for user seeding and unit testing with expired jwt tokens
-                try {
-                    $firebaseJWTToken = substr($request->header('Authorization'), 7);
-                    $verifiedIdToken = $auth->verifyIdToken($firebaseJWTToken, true);
-                    $firebaseUid = $verifiedIdToken->claims()->get('user_id');
-                    $email = $verifiedIdToken->claims()->get('email');
-                    $name = $verifiedIdToken->claims()->get('name');
-                    if(User::where('email',$email)->first() == null){
-                        throw new ErrorException('Error found');;
-                    }
-                } catch(Throwable $e) {
-                    report($e);
-                    $faker = Faker::create();
-                    $firebaseUid = $faker->name();
-                    $email = $faker->unique()->safeEmail();
-                    $name = Str::random(28);
-                }
-
+                return $this->fakeUserAuth($request);
             } else {
-                $firebaseJWTToken = substr($request->header('Authorization'), 7);
-
-                $verifiedIdToken = $auth->verifyIdToken($firebaseJWTToken, true);
-
-                $firebaseUid = $verifiedIdToken->claims()->get('user_id');
-                $email = $verifiedIdToken->claims()->get('email');
-                $name = $verifiedIdToken->claims()->get('name');
+                return $this->realUserAuth($request);
             }
 
-            $user = null;
-            $request->request->add(['email' => $email, 'name' => $name, 'firebase_uid' => $firebaseUid]);
-            // TODO clean this up as this is a dirty way to if-else based on if this route is auth/create
-            if (!str_contains($request->getPathInfo(), "auth/create")) {
-                $user = getAuthenticatedUserFromFirebaseUid($firebaseUid);
-            }
-            return $user;
         });
     }
 }

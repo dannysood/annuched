@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #start cron
-/usr/sbin/crond -f -l 8
+# /usr/sbin/crond -f -l 8
 
 sed -i "s,LISTEN_PORT,$PORT,g" /etc/nginx/nginx.conf
 

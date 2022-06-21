@@ -85,18 +85,39 @@ jobs:
         working-directory: api
     steps:
       - uses: actions/checkout@v3
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v0'
+      - id: "auth"
+        uses: "google-github-actions/auth@v0"
         with:
-          credentials_json: '${{ secrets.API_PROD_GCP_SERVICE_ACCOUNT }}'
+          credentials_json: "${{ secrets.API_PROD_GCP_SERVICE_ACCOUNT }}"
 
-      - name: 'Deploy to Cloud Run'
-        uses: 'google-github-actions/deploy-cloudrun@v0'
+      - name: "Deploy to Cloud Run"
+        uses: "google-github-actions/deploy-cloudrun@v0"
         with:
           service: prod-api
           image: us-central1-docker.pkg.dev/annuched/prod-api/api:latest
           region: us-central1
           # env_vars: 'NAME="Hello World"'
+
+  deploy-fetch-from-remote-blog-api:
+    needs: api-deploy-cloud-run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: "actions/checkout@v3"
+      - id: "auth"
+        uses: "google-github-actions/auth@v0"
+        with:
+          credentials_json: "${{ secrets.API_PROD_GCP_SERVICE_ACCOUNT }}"
+
+      - id: "deploy"
+        uses: "google-github-actions/deploy-cloud-functions@v0"
+        with:
+          name: "fetch-from-remote-blog-api"
+          entry_point: "fetchFromRemoteBlogAPI"
+          event_trigger_type: google.pubsub.topic.publish
+          event_trigger_resource: projects/annuched/topics/fetch-from-remote-blog-api
+          event_trigger_service: pubsub.googleapis.com
+          source_dir: triggers/fetchFromRemoteBlogAPI
+          runtime: "nodejs16"
 
   # api-migration:
   #   needs: api-deploy-cloud-run
@@ -124,5 +145,3 @@ jobs:
   #       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-reqs
   #     - name: Execute migrations
   #       run: php artisan migrate
-
-

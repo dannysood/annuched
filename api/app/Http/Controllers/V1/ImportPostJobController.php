@@ -14,12 +14,13 @@ class ImportPostJobController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
      * @param  \App\Http\Requests\StorePostRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function getPosts()
     {
+        // TODO the job isnt idempotent because there is no unique identifier per post to identify if a post has been copied already
+        // Work with API providers to establish an unique identifier to establish idempotency
         try {
             $user = User::where('email',env('ADMIN_EMAIL', 'something@example.com'))->firstOrFail();
         }
@@ -51,7 +52,6 @@ class ImportPostJobController extends Controller
                 Post::create(['title'=> $post['title'],'description' => $post['body'], 'owner_id' => $user->id]);
               }
         }
-        print("***import posts from remote successful***");
-        return "success";
+        return response(["message" => "success"], 201);
     }
 }

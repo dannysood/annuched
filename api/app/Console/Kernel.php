@@ -15,7 +15,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('remote-posts:load')->everyFifteenMinutes()->onOneServer();
         // $schedule->command('inspire')->hourly();
     }
 
