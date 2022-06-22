@@ -1,0 +1,469 @@
+{
+	"info": {
+		"_postman_id": "1bb34ab2-4095-424b-9967-705503fa58b4",
+		"name": "Blog Post System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7986606"
+	},
+	"item": [
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "firebase-uid-for-testing",
+								"value": "{{FIREBASE_UID_FOR_TESTING}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"rachel fedfefersdfsdg ssdfsdf sdf dgd g\",\"description\":\"dgergerg ssgdrgdsd dgdfkgjdrbg rg dkgjrdg r dgergerg ssgdrgdsd dgdfkgjdrbg rg dkgjrdg r dgergerg ssgdrgdsd dgdfkgjdrbg rg dkgjrdg r\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/post",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							},
+							{
+								"key": "firebase-uid-for-testing",
+								"value": "{{FIREBASE_UID_FOR_TESTING}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/post",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"post"
+							],
+							"query": [
+								{
+									"key": "cursor",
+									"value": "eyJjcmVhdGVkX2F0IjoiMjAyMi0wNi0xOCAxMDozNzozMCIsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							},
+							{
+								"key": "firebase-uid-for-testing",
+								"value": "{{FIREBASE_UID_FOR_TESTING}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/post/610921bb-dcaa-4eab-a489-e2bff9de6778",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"post",
+								"610921bb-dcaa-4eab-a489-e2bff9de6778"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Pagination",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							},
+							{
+								"key": "firebase-uid-for-testing",
+								"value": "{{FIREBASE_UID_FOR_TESTING}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/post",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"post"
+							],
+							"query": [
+								{
+									"key": "cursor",
+									"value": "eyJjcmVhdGVkX2F0IjoiMjAyMi0wNi0xNyAwODoxNjoyMSIsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update One (Not Allowed with 405)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							},
+							{
+								"key": "firebase-uid-for-testing",
+								"value": "{{FIREBASE_UID_FOR_TESTING}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/post/cc633d0e-62c1-49ef-8afa-e5dba961be6d",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"post",
+								"cc633d0e-62c1-49ef-8afa-e5dba961be6d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete One (Not Allowed with 405)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							},
+							{
+								"key": "firebase-uid-for-testing",
+								"value": "{{FIREBASE_UID_FOR_TESTING}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/post/cc633d0e-62c1-49ef-8afa-e5dba961be6d",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"post",
+								"cc633d0e-62c1-49ef-8afa-e5dba961be6d"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete One",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/v1/post/cc633d0e-62c1-49ef-8afa-e5dba961be6d",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"post",
+										"cc633d0e-62c1-49ef-8afa-e5dba961be6d"
+									]
+								}
+							},
+							"status": "Method Not Allowed",
+							"code": 405,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:80"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 12 Jun 2022 14:11:51 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 12 Jun 2022 14:11:51 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.1.6"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "57"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Deleting posts isnt allowed\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "firebase-uid-for-testing",
+								"value": "{{FIREBASE_UID_FOR_TESTING}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/auth/create",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Jobs",
+			"item": [
+				{
+					"name": "Fetch From Remote Blog API",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/job/fetch-from-remote-blog-api",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"job",
+								"fetch-from-remote-blog-api"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{Authorization}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:80/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "Authorization",
+			"value": ""
+		},
+		{
+			"key": "FIREBASE_UID_FOR_TESTING",
+			"value": "asdfghjklasdfghjklasdfghjklasdfgh001",
+			"type": "string"
+		}
+	]
+}
