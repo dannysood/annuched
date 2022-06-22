@@ -6,6 +6,8 @@
         "dev",
         "ci",
         "test",
-        "docs"
+        "docs",
+        "infra",
+        "job"
     ]
 }

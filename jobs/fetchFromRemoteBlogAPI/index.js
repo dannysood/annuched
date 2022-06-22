@@ -6,7 +6,7 @@
  */
 const axios = require('axios').default;
 exports.fetchFromRemoteBlogAPI = (event, context) => {
-  return axios.post(`https://api.annuched.dannysood.com/api/v1/job/fetch-from-remote-blog-api`,{"key":$process.env.JOBS_PRESHARED_SECRET},{headers: {
+  return axios.post(`https://api.annuched.dannysood.com/api/v1/job/fetch-from-remote-blog-api`,{"key":process.env.JOBS_PRESHARED_SECRET},{headers: {
     "Accept": "application/json",
     "Content-Type": "application/json",
 
