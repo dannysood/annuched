@@ -5,6 +5,7 @@
         "auth",
         "dev",
         "ci",
-        "test"
+        "test",
+        "docs"
     ]
 }
