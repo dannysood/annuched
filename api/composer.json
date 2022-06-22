@@ -21,6 +21,7 @@
     "require": {
         "php": "^8.0.2",
         "arifhp86/laravel-clear-expired-cache-file": "dev-master",
+        "fakerphp/faker": "^1.9.1",
         "guzzlehttp/guzzle": "^7.2",
         "kreait/laravel-firebase": "^4.1",
         "laravel/framework": "^9.11",
@@ -30,7 +31,6 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",
-        "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
