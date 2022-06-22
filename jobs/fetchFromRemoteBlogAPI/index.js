@@ -6,7 +6,7 @@
  */
 const axios = require('axios').default;
 exports.fetchFromRemoteBlogAPI = (event, context) => {
-  return axios.get('https://api.annuched.google.com/api/v1/job/fetch-from-remote-blog-api')
+  return axios.get('https://api.annuched.dannysood.com/api/v1/job/fetch-from-remote-blog-api')
     .then((response) => console.log(response))
     .catch((error) => console.log(error))
 };
