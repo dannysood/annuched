@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\V1;
 
-
+use App\Events\PostCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreImportPostFromAPIRequest;
 use App\Models\Post;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
 
 class ImportPostJobController extends Controller
@@ -59,6 +60,7 @@ class ImportPostJobController extends Controller
 
                 Post::create(['title'=> $post['title'],'description' => $post['body'], 'owner_id' => $user->id]);
               }
+              Event::dispatch(new PostCreated());
         }
         return response(["message" => "success"], 201);
     }
