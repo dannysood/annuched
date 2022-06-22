@@ -117,6 +117,7 @@ jobs:
           event_trigger_resource: projects/annuched/topics/fetch-from-remote-blog-api
           event_trigger_service: pubsub.googleapis.com
           source_dir: jobs/fetchFromRemoteBlogAPI
+          env_vars: "JOBS_PRESHARED_SECRET=${{ secrets.PROD_JOBS_PRESHARED_SECRET }}"
           runtime: "nodejs16"
 
   # api-migration:
