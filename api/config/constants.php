@@ -1,6 +1,6 @@
 <?php
 return [
-    'pageSize' => 4,
+    'pageSize' => 6,
     'rateLimit' => 6000000,
     'cache' => [
         'posts' => [
