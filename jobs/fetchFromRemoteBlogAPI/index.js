@@ -11,6 +11,6 @@ exports.fetchFromRemoteBlogAPI = (event, context) => {
     "Content-Type": "application/json",
 
 }})
-    .then((response) => console.log("*******SUCCESS:", response))
-    .catch((error) => console.log("!!!!!!!FAILURE:", error))
+    .then((response) => console.log("*******SUCCESS"))
+    .catch((error) => console.log("!!!!!!!FAILURE"))
 };
