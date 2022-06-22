@@ -1,7 +1,7 @@
 <?php
 return [
     'pageSize' => 4,
-    'rateLimit' => 60000,
+    'rateLimit' => 6000000,
     'cache' => [
         'posts' => [
             'paginationPrefixRoot' => 'posts-pagination-first',
