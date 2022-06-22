@@ -4,9 +4,11 @@ namespace App\Http\Controllers\V1;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreImportPostFromAPIRequest;
 use App\Models\Post;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
 class ImportPostJobController extends Controller
@@ -17,8 +19,14 @@ class ImportPostJobController extends Controller
      * @param  \App\Http\Requests\StorePostRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function getPosts()
+    public function store(StoreImportPostFromAPIRequest $request)
     {
+        // using basic preshared key that once exposed can be used repeatedly
+        // TODO change to HMAC based auth for better security
+        if(Config::get('constants.jobsKey') != $request->get('key')){
+            abort(401, "authorization failed");
+        }
+
         // TODO the job isnt idempotent because there is no unique identifier per post to identify if a post has been copied already
         // Work with API providers to establish an unique identifier to establish idempotency
         try {

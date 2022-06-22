@@ -28,7 +28,7 @@ Route::prefix('v1')->group(function () {
         Route::post('create', [AuthController::class, 'create'])->withoutMiddleware(('auth'));
     });
     Route::group(['prefix' => 'job'], function ($router) {
-        Route::get('fetch-from-remote-blog-api', [ImportPostJobController::class, 'getPosts'])->withoutMiddleware(('auth'));
+        Route::resource('fetch-from-remote-blog-api', ImportPostJobController::class)->only(['store']);
     });
     Route::apiResource('post', PostController::class);
 });

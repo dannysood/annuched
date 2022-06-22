@@ -20,6 +20,7 @@ return [
     'jwt' => [
         'firebase' => [
             'isVerifyToken' => env('IS_FIREBASE_VERIFY_TOKEN', 'default'),
-        ]
-    ]
+        ],
+    ],
+    'jobsKey' => env('JOBS_PRESHARED_SECRET', 'not found')
 ];

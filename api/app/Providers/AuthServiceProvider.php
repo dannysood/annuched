@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Models\User;
 use Auth;
-use ErrorException;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
