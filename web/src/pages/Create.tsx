@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string, number, array, InferType } from "yup";
-import { getUserToken } from "../services/auth";
+import { getCurrentUser, getUserToken } from "../services/auth";
 import { createOnePost } from "../services/api/post";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -29,13 +29,15 @@ export const Create = () => {
   const onSubmit = async (values: Props) => {
     setIsLoading(true);
     const token = await getUserToken(false);
+    const user = getCurrentUser();
+    const uid = user ? user.uid : "";
 
     if(!token){
       setIsLoading(false);
       navigate("/login");
     }
 
-    await createOnePost(token!,values.title, values.description);
+    await createOnePost(token!,uid,values.title, values.description);
     setIsLoading(false);
     navigate("/");
 

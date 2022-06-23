@@ -9,14 +9,16 @@ export const getBaseUrl = () => {
     return BASE_URL;
 }
 
-export const buildAxiosConfig: (token: string) => AxiosRequestConfig = (token: string) => {
+// TODO fix axios typing issue for headers by extending AxiosRequestHeaders Type
+// @ts-ignore
+export const buildAxiosConfig: (token: string, uid: string) => AxiosRequestConfig = (token: string, uid: string) => {
+    const authHeaders = process.env.REACT_APP_IS_FIREBASE_VERIFY == "true" ? {"Authorization": `Bearer ${token}`}:{'firebase-uid-for-testing':uid};
     return {
         headers: {
-            "Authorization": `Bearer ${token}`,
             "Accept": "application/json",
             "Content-Type": "application/json",
-            // "X-Requested-With": "XMLHttpRequest"
+            ...authHeaders
 
-        }
+        },
     }
 }

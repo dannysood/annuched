@@ -18,14 +18,16 @@ export const Dashboard = () => {
         const $user = getCurrentUser();
         if (!$user) {
             navigate("/login");
+        } else {
+            const token = await getUserToken(false)
+            if (token) {
+                const postsFromAPI = await getAllPosts(token, $user.uid,currentCursor == "" ? undefined : currentCursor);
+                setPosts(postsFromAPI.posts);
+                setPaginationCursors({ nextCursor: postsFromAPI.nextCursor, prevCursor: postsFromAPI.prevCursor });
+                setIsDataFetched(true);
+            }
         }
-        const token = await getUserToken(false)
-        if (token) {
-            const postsFromAPI = await getAllPosts(token, currentCursor == "" ? undefined : currentCursor);
-            setPosts(postsFromAPI.posts);
-            setPaginationCursors({ nextCursor: postsFromAPI.nextCursor, prevCursor: postsFromAPI.prevCursor });
-            setIsDataFetched(true);
-        }
+
     }
     useEffect(() => { getPostsFromAPI() }, [currentCursor]);
     // @ts-ignore

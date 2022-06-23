@@ -25,7 +25,7 @@ export const Login = () => {
       if (user) {
         const token = await getUserToken(false);
         if(token){
-          await createUserIfDoesntExist(token);
+          await createUserIfDoesntExist(token,user.uid);
           navigate("/");
         }
       }

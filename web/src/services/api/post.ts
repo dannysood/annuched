@@ -3,8 +3,8 @@ import { IPost } from "../../types";
 import { buildAxiosConfig, getBaseUrl } from "./util";
 
 
-export const getAllPosts: (token: string, cursor?: string) => Promise<{posts: IPost[], nextCursor?: string, prevCursor?: string}> = async (token: string, cursor?: string) => {
-    let config = buildAxiosConfig(token);
+export const getAllPosts: (token: string, uid:string, cursor?: string) => Promise<{posts: IPost[], nextCursor?: string, prevCursor?: string}> = async (token: string, uid: string, cursor?: string) => {
+    let config = buildAxiosConfig(token, uid);
     if(cursor) {
         config = {params: {cursor: cursor}, ...config};
     }
@@ -28,10 +28,10 @@ export const getAllPosts: (token: string, cursor?: string) => Promise<{posts: IP
 
 }
 
-export const getOnePost = async (token: string, id: string) => {
-    return axios.get(`${getBaseUrl()}/post/${id}`,buildAxiosConfig(token));
+export const getOnePost = async (token: string, uid: string, id: string) => {
+    return axios.get(`${getBaseUrl()}/post/${id}`,buildAxiosConfig(token, uid));
 }
 
-export const createOnePost = async (token: string, title: string, description: string) => {
-    return axios.post(`${getBaseUrl()}/post`,{title,description},buildAxiosConfig(token));
+export const createOnePost = async (token: string, uid: string, title: string, description: string) => {
+    return axios.post(`${getBaseUrl()}/post`,{title,description},buildAxiosConfig(token, uid));
 }
