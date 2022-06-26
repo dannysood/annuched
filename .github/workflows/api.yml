@@ -39,6 +39,7 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
+          IS_FIREBASE_VERIFY_TOKEN: false
         run: php artisan test --coverage --min=6.2 --coverage-clover='tests/reports/coverage.xml'  --coverage-html='tests/reports/coverage'
       - name: Upload coverage file
         uses: "actions/upload-artifact@v2"
