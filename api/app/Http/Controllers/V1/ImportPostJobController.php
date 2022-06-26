@@ -16,8 +16,8 @@ class ImportPostJobController extends Controller
 {
 
     /**
-     * Store a newly created resource in storage.
-     * @param  \App\Http\Requests\StorePostRequest  $request
+     * validate job request and then fetch details
+     * @param  \App\Http\Requests\StoreImportPostFromAPIRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreImportPostFromAPIRequest $request)
@@ -27,7 +27,16 @@ class ImportPostJobController extends Controller
         if(Config::get('constants.jobsKey') != $request->get('key')){
             abort(401, "authorization failed");
         }
+        return $this->getPosts();
 
+
+    }
+
+    /**
+     * get posts from remote
+     */
+    public function getPosts()
+    {
         // TODO the job isnt idempotent because there is no unique identifier per post to identify if a post has been copied already
         // Work with API providers to establish an unique identifier to establish idempotency
         try {

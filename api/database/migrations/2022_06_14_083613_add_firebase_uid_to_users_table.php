@@ -13,8 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
+
         Schema::table('users', function (Blueprint $table) {
-            $table->string('firebase_uid',50)->unique();
+            $driver = Schema::connection($this->getConnection())->getConnection()->getDriverName();
+            if ('sqlite' === $driver) {
+                // to fix sqlite issue explained at https://stackoverflow.com/questions/20822159/laravel-migration-with-sqlite-cannot-add-a-not-null-column-with-default-value-n
+                $table->string('firebase_uid',50)->unique()->default('');
+            } else {
+                $table->string('firebase_uid',50)->unique();
+            }
+
         });
     }
 
